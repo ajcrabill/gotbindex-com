@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GOTB Index — Great on Their Behalf</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #1A3A5C;
+      --navy-lt: #2E618B;
+      --navy-dk: #0F2538;
+      --ice: #EBF2F8;
+      --white: #FFFFFF;
+      --body: #333333;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--body);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 64px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .nav-logo {
+      color: var(--white);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      opacity: 0.9;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      color: var(--white);
+      padding: 6rem 2rem 5rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-weight: 300;
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      opacity: 0.92;
+      line-height: 1.7;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 1.75rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.15s, opacity 0.15s;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.92;
+    }
+
+    .btn-ice {
+      background: var(--ice);
+      color: var(--navy);
+      border: 2px solid transparent;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--white);
+    }
+
+    .btn-navy {
+      background: var(--navy);
+      color: var(--white);
+      border: 2px solid transparent;
+    }
+
+    .btn-white {
+      background: var(--white);
+      color: var(--navy);
+      border: 2px solid transparent;
+    }
+
+    /* ── SECTION COMMONS ── */
+    section {
+      padding: 5rem 2rem;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    /* ── WHAT IT MEASURES ── */
+    #what-it-measures {
+      background: var(--ice);
+    }
+
+    .practice-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .practice-card {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 1.75rem 1.5rem;
+      box-shadow: 0 2px 10px rgba(26,58,92,0.08);
+    }
+
+    .practice-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+
+    .practice-card p {
+      font-size: 0.95rem;
+      color: var(--body);
+      line-height: 1.6;
+    }
+
+    .practice-note {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #555;
+      font-style: italic;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ── FREE VS CERTIFIED ── */
+    #free-vs-certified {
+      background: var(--white);
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .compare-card {
+      border-radius: 10px;
+      padding: 2.25rem 2rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .compare-card.card-light {
+      background: var(--white);
+      border: 2px solid var(--navy);
+      color: var(--body);
+    }
+
+    .compare-card.card-dark {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .compare-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+    }
+
+    .compare-card.card-dark h3 {
+      color: var(--white);
+    }
+
+    .compare-card ul {
+      list-style: none;
+      margin-bottom: 2rem;
+      flex: 1;
+    }
+
+    .compare-card ul li {
+      padding: 0.45rem 0;
+      font-size: 0.95rem;
+      padding-left: 1.4rem;
+      position: relative;
+    }
+
+    .compare-card ul li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      font-weight: 700;
+    }
+
+    .compare-card.card-light ul li::before {
+      color: var(--navy);
+    }
+
+    .compare-card.card-dark ul li::before {
+      color: var(--ice);
+    }
+
+    /* ── BENCHMARK ── */
+    #benchmark {
+      background: var(--navy-dk);
+      color: var(--white);
+      text-align: center;
+    }
+
+    #benchmark .section-heading {
+      color: var(--white);
+    }
+
+    #benchmark .benchmark-body {
+      max-width: 680px;
+      margin: 0 auto 1.5rem;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      opacity: 0.92;
+    }
+
+    #benchmark .benchmark-note {
+      font-size: 0.85rem;
+      opacity: 0.65;
+      font-style: italic;
+    }
+
+    /* ── FIND A FACILITATOR ── */
+    #find-facilitator {
+      background: var(--ice);
+      text-align: center;
+    }
+
+    #find-facilitator .facilitator-text {
+      max-width: 620px;
+      margin: 0 auto 2rem;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #444;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      color: var(--white);
+      text-align: center;
+      padding: 2.5rem 2rem;
+    }
+
+    footer .footer-brand {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    footer .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    footer .footer-links a {
+      color: var(--ice);
+      text-decoration: none;
+      font-size: 0.9rem;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+
+    footer .footer-links a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    footer .footer-copy {
+      font-size: 0.8rem;
+      opacity: 0.6;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+        gap: 0.75rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">GOTB Index</a>
+    <ul class="nav-links">
+      <li><a href="#what-it-measures">What It Measures</a></li>
+      <li><a href="#free-vs-certified">Free vs. Certified</a></li>
+      <li><a href="#find-facilitator">Find a Facilitator</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>The Great on Their Behalf Index</h1>
+    <p>A validated self-assessment that measures your board's governance practices against the five-practice GOTB framework — so you know exactly where you stand and what to do next.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-ice" href="https://effectiveschoolboards.com/gotb-free/">Take the Free Self-Assessment &rarr;</a>
+      <a class="btn btn-outline" href="#find-facilitator">Find a Certified Facilitator</a>
+    </div>
+  </section>
+
+  <!-- WHAT IT MEASURES -->
+  <section id="what-it-measures">
+    <div class="section-inner">
+      <h2 class="section-heading">Five Governance Practices. One Honest Assessment.</h2>
+      <div class="practice-grid">
+        <div class="practice-card">
+          <h3>Focus Mindset</h3>
+          <p>Does your board operate with a clear, outcomes-focused governing philosophy?</p>
+        </div>
+        <div class="practice-card">
+          <h3>Clarify Priorities</h3>
+          <p>Has your board set specific, measurable student outcome goals?</p>
+        </div>
+        <div class="practice-card">
+          <h3>Monitor Progress</h3>
+          <p>Does your board systematically track whether students are achieving those goals?</p>
+        </div>
+        <div class="practice-card">
+          <h3>Align Resources</h3>
+          <p>Does your board allocate budget, staff, and time based on student outcome priorities?</p>
+        </div>
+        <div class="practice-card">
+          <h3>Communicate Results</h3>
+          <p>Does your board transparently share outcome progress with the community?</p>
+        </div>
+      </div>
+      <p class="practice-note">Each practice is scored and benchmarked against boards nationally — so you can see not just how you score, but how you compare.</p>
+    </div>
+  </section>
+
+  <!-- FREE VS CERTIFIED -->
+  <section id="free-vs-certified">
+    <div class="section-inner">
+      <h2 class="section-heading">Two Ways to Use the GOTB Index</h2>
+      <div class="compare-grid">
+        <div class="compare-card card-light">
+          <h3>Free Self-Assessment</h3>
+          <ul>
+            <li>5-practice survey completed by individual board members</li>
+            <li>Immediate results + practice-level scores</li>
+            <li>No facilitator required</li>
+            <li>Available at effectiveschoolboards.com/gotb-free/</li>
+          </ul>
+          <a class="btn btn-navy" href="https://effectiveschoolboards.com/gotb-free/">Take It Free &rarr;</a>
+        </div>
+        <div class="compare-card card-dark">
+          <h3>Certified Assessment</h3>
+          <ul>
+            <li>Full board participation with validated aggregate scoring</li>
+            <li>Benchmark comparison against national GOTB database</li>
+            <li>Facilitated debrief with a Certified Facilitator</li>
+            <li>Written governance improvement recommendations</li>
+          </ul>
+          <a class="btn btn-white" href="#find-facilitator">Find a Facilitator &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENCHMARK -->
+  <section id="benchmark">
+    <div class="section-inner">
+      <h2 class="section-heading">How Does Your Board Compare?</h2>
+      <p class="benchmark-body">The GOTB Index has assessed school boards across the country. Your certified results are benchmarked against this national dataset — so you know not just your score, but where you stand relative to boards like yours.</p>
+      <p class="benchmark-note">National benchmarks available only through Certified Assessment</p>
+    </div>
+  </section>
+
+  <!-- FIND A FACILITATOR -->
+  <section id="find-facilitator">
+    <div class="section-inner">
+      <h2 class="section-heading">Find a GOTB Certified Facilitator</h2>
+      <p class="facilitator-text">A Certified Facilitator guides your full board through the GOTB Index assessment and debrief — turning scores into committed governance improvements.</p>
+      <a class="btn btn-navy" href="https://effectiveschoolboards.com">Connect with a Certified Facilitator</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">The GOTB Index | A program of Effective School Boards, LLC</div>
+    <div class="footer-links">
+      <a href="https://effectiveschoolboards.com" target="_blank" rel="noopener">effectiveschoolboards.com</a>
+      <a href="https://greatontheirbehalf.com" target="_blank" rel="noopener">greatontheirbehalf.com</a>
+      <a href="https://gotbfacilitator.com" target="_blank" rel="noopener">gotbfacilitator.com</a>
+    </div>
+    <div class="footer-copy">&copy; 2026 Effective School Boards, LLC</div>
+  </footer>
+
+</body>
+</html>
