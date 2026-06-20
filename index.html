@@ -16,356 +16,199 @@
       --white: #FFFFFF;
       --body: #333333;
     }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--body); line-height: 1.6; }
 
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: var(--navy); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; height: 64px; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+    .nav-logo { color: var(--white); font-size: 1.15rem; font-weight: 700; letter-spacing: 0.02em; text-decoration: none; white-space: nowrap; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--white); text-decoration: none; font-size: 0.9rem; font-weight: 500; opacity: 0.9; transition: opacity 0.2s; white-space: nowrap; }
+    .nav-links a:hover { opacity: 1; text-decoration: underline; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    /* HERO */
+    .hero { background: var(--navy); color: var(--white); padding: 5rem 2rem 4rem; text-align: center; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; line-height: 1.2; margin-bottom: 1.25rem; }
+    .hero p { font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 300; max-width: 700px; margin: 0 auto 2.5rem; opacity: 0.92; line-height: 1.7; }
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      color: var(--body);
-      line-height: 1.6;
-    }
+    /* BUTTONS */
+    .btn { display: inline-block; padding: 0.85rem 1.75rem; border-radius: 6px; font-size: 1rem; font-weight: 600; text-decoration: none; transition: transform 0.15s, opacity 0.15s; cursor: pointer; border: none; }
+    .btn:hover { transform: translateY(-2px); opacity: 0.92; }
+    .btn-ice { background: var(--ice); color: var(--navy); border: 2px solid transparent; }
+    .btn-outline { background: transparent; color: var(--white); border: 2px solid var(--white); }
+    .btn-navy { background: var(--navy); color: var(--white); border: 2px solid transparent; }
+    .btn-white { background: var(--white); color: var(--navy); border: 2px solid transparent; }
 
-    /* ── NAV ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--navy);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 2rem;
-      height: 64px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
+    /* SECTION COMMONS */
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-heading { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; margin-bottom: 2.5rem; text-align: center; }
 
-    .nav-logo {
-      color: var(--white);
-      font-size: 1.15rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      text-decoration: none;
-      white-space: nowrap;
-    }
+    /* WHAT IT MEASURES */
+    #what-it-measures { background: var(--ice); }
+    .practice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .practice-card { background: var(--white); border-radius: 10px; padding: 1.75rem 1.5rem; box-shadow: 0 2px 10px rgba(26,58,92,0.08); }
+    .practice-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+    .practice-card p { font-size: 0.95rem; color: var(--body); line-height: 1.6; }
+    .practice-note { text-align: center; font-size: 0.95rem; color: #555; font-style: italic; max-width: 680px; margin: 0 auto; }
 
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
+    /* ASSESSMENT SECTION */
+    .assessment-section { background: var(--white); padding: 5rem 2rem; }
+    .assessment-section-header { text-align: center; margin-bottom: 2.5rem; }
+    .assessment-section-header .section-eyebrow { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--navy); background: var(--ice); padding: 0.3rem 0.9rem; border-radius: 20px; margin-bottom: 0.75rem; }
+    .assessment-section-header h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+    .assessment-section-header p { font-size: 0.95rem; color: #666; }
 
-    .nav-links a {
-      color: var(--white);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      opacity: 0.9;
-      transition: opacity 0.2s;
-      white-space: nowrap;
-    }
+    /* EMBEDDED ASSESSMENT CSS (namespaced under .gotb-embed) */
+    .gotb-embed { max-width: 760px; margin: 0 auto; font-family: 'Inter', sans-serif; color: #2c3e50; }
+    .gotb-embed #progress-bar-wrap { margin-bottom: 22px; }
+    .gotb-embed #progress-bar-label { font-size: 12px; color: #777; margin-bottom: 5px; }
+    .gotb-embed #progress-bar { background: #e0e0e0; border-radius: 6px; height: 8px; }
+    .gotb-embed #progress-fill { background: #1A3A5C; height: 8px; border-radius: 6px; transition: width .35s; width: 0%; }
+    .gotb-embed .gotb-step { display: none; }
+    .gotb-embed .gotb-step.active { display: block; }
+    .gotb-embed #area-nav { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .gotb-embed .area-dot { width: 26px; height: 26px; border-radius: 50%; background: #e0e0e0; border: none; cursor: pointer; transition: background .2s; }
+    .gotb-embed .area-dot.done { background: #1A3A5C; }
+    .gotb-embed .area-dot.current { background: #1A3A5C; outline: 3px solid #9fc3e8; }
+    .gotb-embed .question-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 24px; margin-bottom: 16px; }
+    .gotb-embed .question-card .q-num { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: #999; margin-bottom: 6px; }
+    .gotb-embed .question-card .q-text { font-size: 15px; font-weight: 600; color: #2c3e50; margin: 0 0 16px; line-height: 1.5; }
+    .gotb-embed .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 540px) { .gotb-embed .choices { grid-template-columns: 1fr; } }
+    .gotb-embed .choice-label { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 8px; border: 2px solid transparent; cursor: pointer; transition: border-color .15s, background .15s; }
+    .gotb-embed .choice-label input[type=radio] { display: none; }
+    .gotb-embed .choice-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #bbb; flex-shrink: 0; margin-top: 2px; transition: border-color .15s, background .15s; }
+    .gotb-embed .choice-main { flex: 1; }
+    .gotb-embed .choice-name { font-size: 13px; font-weight: 700; display: block; }
+    .gotb-embed .choice-desc { font-size: 12px; color: #777; display: block; margin-top: 2px; line-height: 1.4; }
+    .gotb-embed .c0 { background: #fff5f5; border-color: #f5cbcc; }
+    .gotb-embed .c0 .choice-dot { border-color: #e57373; }
+    .gotb-embed .c0 .choice-name { color: #c0392b; }
+    .gotb-embed .c1 { background: #fff8f0; border-color: #fce5cd; }
+    .gotb-embed .c1 .choice-dot { border-color: #e07b00; }
+    .gotb-embed .c1 .choice-name { color: #a05000; }
+    .gotb-embed .c2 { background: #f4fbf6; border-color: #c8e6c9; }
+    .gotb-embed .c2 .choice-dot { border-color: #43a047; }
+    .gotb-embed .c2 .choice-name { color: #2e7d32; }
+    .gotb-embed .c3 { background: #eff6ff; border-color: #bee3f8; }
+    .gotb-embed .c3 .choice-dot { border-color: #1A3A5C; }
+    .gotb-embed .c3 .choice-name { color: #1a4a7a; }
+    .gotb-embed .choice-label.selected { box-shadow: 0 0 0 2px rgba(26,58,92,.3); }
+    .gotb-embed .c0.selected { border-color: #e57373; }
+    .gotb-embed .c1.selected { border-color: #e07b00; }
+    .gotb-embed .c2.selected { border-color: #43a047; }
+    .gotb-embed .c3.selected { border-color: #1A3A5C; }
+    .gotb-embed .selected .choice-dot { background: currentColor; border-width: 4px; }
+    .gotb-embed .c0.selected .choice-dot { background: #e57373; border-color: #e57373; }
+    .gotb-embed .c1.selected .choice-dot { background: #e07b00; border-color: #e07b00; }
+    .gotb-embed .c2.selected .choice-dot { background: #43a047; border-color: #43a047; }
+    .gotb-embed .c3.selected .choice-dot { background: #1A3A5C; border-color: #1A3A5C; }
+    .gotb-embed .area-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .gotb-embed .area-pill { background: #1A3A5C; color: #fff; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; padding: 4px 12px; border-radius: 20px; }
+    .gotb-embed .area-desc { font-size: 13px; color: #666; }
+    .gotb-embed .gotb-btn { display: inline-block; padding: 13px 28px; border-radius: 8px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; transition: opacity .2s; font-family: 'Inter', sans-serif; }
+    .gotb-embed .gotb-btn:hover { opacity: .88; }
+    .gotb-embed .gotb-btn-primary { background: #1A3A5C; color: #fff; }
+    .gotb-embed .gotb-btn-secondary { background: #e0e0e0; color: #2c3e50; }
+    .gotb-embed .gotb-btn-row { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+    .gotb-embed #step-gate { max-width: 500px; margin: 0 auto; }
+    .gotb-embed .gate-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 32px; }
+    .gotb-embed .gate-card h2 { margin: 0 0 8px; font-size: 20px; }
+    .gotb-embed .gate-card p { font-size: 14px; color: #666; margin: 0 0 24px; }
+    .gotb-embed .form-field { margin-bottom: 18px; }
+    .gotb-embed .form-field label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #2c3e50; }
+    .gotb-embed .form-field input { width: 100%; padding: 10px 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; font-family: 'Inter', sans-serif; }
+    .gotb-embed .form-field input:focus { outline: 2px solid #1A3A5C; border-color: #1A3A5C; }
+    .gotb-embed #gate-error { color: #c0392b; font-size: 13px; margin-top: 10px; display: none; }
+    .gotb-embed #submit-btn { width: 100%; margin-top: 6px; padding: 14px; font-size: 16px; }
+    .gotb-embed .privacy-note { font-size: 12px; color: #888; text-align: center; margin-top: 14px; line-height: 1.5; }
+    .gotb-embed .privacy-note a { color: #1A3A5C; }
+    .gotb-embed #step-results { max-width: 680px; margin: 0 auto; }
+    .gotb-embed .results-header { background: #1A3A5C; color: #fff; border-radius: 10px 10px 0 0; padding: 28px 32px; text-align: center; }
+    .gotb-embed .results-header h2 { margin: 0 0 4px; font-size: 20px; }
+    .gotb-embed .results-header p { margin: 0; color: #adc9e8; font-size: 13px; }
+    .gotb-embed .score-circle { width: 110px; height: 110px; border-radius: 50%; margin: 20px auto 8px; display: flex; align-items: center; justify-content: center; flex-direction: column; font-weight: 800; }
+    .gotb-embed .score-num { font-size: 42px; line-height: 1; }
+    .gotb-embed .score-sub { font-size: 11px; opacity: .7; }
+    .gotb-embed .score-tier { font-size: 16px; font-weight: 700; margin: 4px 0 0; }
+    .gotb-embed .score-indicative { font-size: 12px; color: #adc9e8; margin: 4px 0 0; font-style: italic; }
+    .gotb-embed .results-body { background: #fff; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 10px 10px; padding: 28px 32px; }
+    .gotb-embed .emailed-notice { background: #f0faf4; border: 1px solid #a2d4a7; border-radius: 8px; padding: 14px 18px; margin-bottom: 22px; display: flex; align-items: flex-start; gap: 12px; }
+    .gotb-embed .emailed-notice .icon { font-size: 20px; flex-shrink: 0; line-height: 1.2; }
+    .gotb-embed .emailed-notice p { margin: 0; font-size: 13px; color: #1a5c0a; line-height: 1.5; }
+    .gotb-embed .gap-strength { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+    @media (max-width: 540px) { .gotb-embed .gap-strength { grid-template-columns: 1fr; } }
+    .gotb-embed .gs-card { border-radius: 8px; padding: 14px 16px; }
+    .gotb-embed .gs-card.gap { background: #fff8e6; border: 1px solid #f5c800; }
+    .gotb-embed .gs-card.str { background: #f0faf4; border: 1px solid #a2d4a7; }
+    .gotb-embed .gs-card .gs-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+    .gotb-embed .gs-card.gap .gs-label { color: #7a5500; }
+    .gotb-embed .gs-card.str .gs-label { color: #1a5c0a; }
+    .gotb-embed .gs-card .gs-name { font-size: 15px; font-weight: 600; color: #2c3e50; }
+    .gotb-embed .area-bar-row { margin-bottom: 14px; }
+    .gotb-embed .area-bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: #2c3e50; margin-bottom: 5px; }
+    .gotb-embed .area-bar-track { background: #e0e0e0; border-radius: 4px; height: 10px; overflow: hidden; }
+    .gotb-embed .area-bar-fill { height: 10px; border-radius: 4px; transition: width .5s; }
+    .gotb-embed .tier-legend { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0; }
+    .gotb-embed .tier-block { padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; flex: 1; min-width: 100px; text-align: center; }
+    .gotb-embed .tier-ineff { background: #fff5f5; color: #c0392b; border: 1px solid #f5cbcc; }
+    .gotb-embed .tier-emerg { background: #fff8f0; color: #a05000; border: 1px solid #fce5cd; }
+    .gotb-embed .tier-effec { background: #f4fbf6; color: #2e7d32; border: 1px solid #c8e6c9; }
+    .gotb-embed .tier-highe { background: #eff6ff; color: #1a4a7a; border: 1px solid #bee3f8; }
+    .gotb-embed .tier-block .tier-name { display: block; }
+    .gotb-embed .tier-block .tier-range { font-size: 11px; opacity: 0.75; }
+    .gotb-embed .tier-ineff.score-circle { background: #fff5f5; border: 4px solid #e57373; color: #c0392b; }
+    .gotb-embed .tier-emerg.score-circle { background: #fff8f0; border: 4px solid #e07b00; color: #a05000; }
+    .gotb-embed .tier-effec.score-circle { background: #f4fbf6; border: 4px solid #43a047; color: #2e7d32; }
+    .gotb-embed .tier-highe.score-circle { background: #eff6ff; border: 4px solid #1A3A5C; color: #1a4a7a; }
+    .gotb-embed .limit-block { background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 8px; padding: 18px 20px; margin: 18px 0; }
+    .gotb-embed .limit-block h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: #2c3e50; }
+    .gotb-embed .limit-block p { font-size: 13px; color: #666; line-height: 1.6; margin: 0; }
+    .gotb-embed .results-cta { background: #1A3A5C; color: #fff; border-radius: 10px; padding: 24px 28px; margin: 18px 0; }
+    .gotb-embed .results-cta h3 { margin: 0 0 8px; font-size: 16px; }
+    .gotb-embed .results-cta p { font-size: 13px; color: #adc9e8; margin: 0 0 16px; line-height: 1.5; }
+    .gotb-embed .btn-cta { display: inline-block; background: #fff; color: #1A3A5C; font-weight: 700; font-size: 14px; padding: 10px 20px; border-radius: 6px; text-decoration: none; transition: opacity .2s; }
+    .gotb-embed .btn-cta:hover { opacity: .88; }
+    .gotb-embed .disclaimer { font-size: 11px; color: #aaa; text-align: center; margin-top: 16px; line-height: 1.6; }
 
-    .nav-links a:hover {
-      opacity: 1;
-      text-decoration: underline;
-    }
+    /* FREE VS CERTIFIED */
+    #free-vs-certified { background: var(--white); }
+    .compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .compare-card { border-radius: 10px; padding: 2.25rem 2rem; display: flex; flex-direction: column; }
+    .compare-card.card-light { background: var(--white); border: 2px solid var(--navy); color: var(--body); }
+    .compare-card.card-dark { background: var(--navy); color: var(--white); }
+    .compare-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.25rem; }
+    .compare-card.card-dark h3 { color: var(--white); }
+    .compare-card ul { list-style: none; margin-bottom: 2rem; flex: 1; }
+    .compare-card ul li { padding: 0.45rem 0; font-size: 0.95rem; padding-left: 1.4rem; position: relative; }
+    .compare-card ul li::before { content: "✓"; position: absolute; left: 0; font-weight: 700; }
+    .compare-card.card-light ul li::before { color: var(--navy); }
+    .compare-card.card-dark ul li::before { color: var(--ice); }
 
-    /* ── HERO ── */
-    .hero {
-      background: var(--navy);
-      color: var(--white);
-      padding: 6rem 2rem 5rem;
-      text-align: center;
-    }
+    /* BENCHMARK */
+    #benchmark { background: var(--navy-dk); color: var(--white); text-align: center; }
+    #benchmark .section-heading { color: var(--white); }
+    #benchmark .benchmark-body { max-width: 680px; margin: 0 auto 1.5rem; font-size: 1.05rem; line-height: 1.75; opacity: 0.92; }
+    #benchmark .benchmark-note { font-size: 0.85rem; opacity: 0.65; font-style: italic; }
 
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 1.25rem;
-    }
+    /* FIND A FACILITATOR */
+    #find-facilitator { background: var(--ice); text-align: center; }
+    #find-facilitator .facilitator-text { max-width: 620px; margin: 0 auto 2rem; font-size: 1.05rem; line-height: 1.7; color: #444; }
 
-    .hero p {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      font-weight: 300;
-      max-width: 700px;
-      margin: 0 auto 2.5rem;
-      opacity: 0.92;
-      line-height: 1.7;
-    }
+    /* FOOTER */
+    footer { background: var(--navy); color: var(--white); text-align: center; padding: 2.5rem 2rem; }
+    footer .footer-brand { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+    footer .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+    footer .footer-links a { color: var(--ice); text-decoration: none; font-size: 0.9rem; opacity: 0.85; transition: opacity 0.2s; }
+    footer .footer-links a:hover { opacity: 1; text-decoration: underline; }
+    footer .footer-copy { font-size: 0.8rem; opacity: 0.6; }
 
-    .hero-ctas {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 0.85rem 1.75rem;
-      border-radius: 6px;
-      font-size: 1rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: transform 0.15s, opacity 0.15s;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      opacity: 0.92;
-    }
-
-    .btn-ice {
-      background: var(--ice);
-      color: var(--navy);
-      border: 2px solid transparent;
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--white);
-      border: 2px solid var(--white);
-    }
-
-    .btn-navy {
-      background: var(--navy);
-      color: var(--white);
-      border: 2px solid transparent;
-    }
-
-    .btn-white {
-      background: var(--white);
-      color: var(--navy);
-      border: 2px solid transparent;
-    }
-
-    /* ── SECTION COMMONS ── */
-    section {
-      padding: 5rem 2rem;
-    }
-
-    .section-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .section-heading {
-      font-size: clamp(1.5rem, 3vw, 2.2rem);
-      font-weight: 700;
-      margin-bottom: 2.5rem;
-      text-align: center;
-    }
-
-    /* ── WHAT IT MEASURES ── */
-    #what-it-measures {
-      background: var(--ice);
-    }
-
-    .practice-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .practice-card {
-      background: var(--white);
-      border-radius: 10px;
-      padding: 1.75rem 1.5rem;
-      box-shadow: 0 2px 10px rgba(26,58,92,0.08);
-    }
-
-    .practice-card h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 0.5rem;
-    }
-
-    .practice-card p {
-      font-size: 0.95rem;
-      color: var(--body);
-      line-height: 1.6;
-    }
-
-    .practice-note {
-      text-align: center;
-      font-size: 0.95rem;
-      color: #555;
-      font-style: italic;
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    /* ── FREE VS CERTIFIED ── */
-    #free-vs-certified {
-      background: var(--white);
-    }
-
-    .compare-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .compare-card {
-      border-radius: 10px;
-      padding: 2.25rem 2rem;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .compare-card.card-light {
-      background: var(--white);
-      border: 2px solid var(--navy);
-      color: var(--body);
-    }
-
-    .compare-card.card-dark {
-      background: var(--navy);
-      color: var(--white);
-    }
-
-    .compare-card h3 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 1.25rem;
-    }
-
-    .compare-card.card-dark h3 {
-      color: var(--white);
-    }
-
-    .compare-card ul {
-      list-style: none;
-      margin-bottom: 2rem;
-      flex: 1;
-    }
-
-    .compare-card ul li {
-      padding: 0.45rem 0;
-      font-size: 0.95rem;
-      padding-left: 1.4rem;
-      position: relative;
-    }
-
-    .compare-card ul li::before {
-      content: "✓";
-      position: absolute;
-      left: 0;
-      font-weight: 700;
-    }
-
-    .compare-card.card-light ul li::before {
-      color: var(--navy);
-    }
-
-    .compare-card.card-dark ul li::before {
-      color: var(--ice);
-    }
-
-    /* ── BENCHMARK ── */
-    #benchmark {
-      background: var(--navy-dk);
-      color: var(--white);
-      text-align: center;
-    }
-
-    #benchmark .section-heading {
-      color: var(--white);
-    }
-
-    #benchmark .benchmark-body {
-      max-width: 680px;
-      margin: 0 auto 1.5rem;
-      font-size: 1.05rem;
-      line-height: 1.75;
-      opacity: 0.92;
-    }
-
-    #benchmark .benchmark-note {
-      font-size: 0.85rem;
-      opacity: 0.65;
-      font-style: italic;
-    }
-
-    /* ── FIND A FACILITATOR ── */
-    #find-facilitator {
-      background: var(--ice);
-      text-align: center;
-    }
-
-    #find-facilitator .facilitator-text {
-      max-width: 620px;
-      margin: 0 auto 2rem;
-      font-size: 1.05rem;
-      line-height: 1.7;
-      color: #444;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--navy);
-      color: var(--white);
-      text-align: center;
-      padding: 2.5rem 2rem;
-    }
-
-    footer .footer-brand {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-
-    footer .footer-links {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-
-    footer .footer-links a {
-      color: var(--ice);
-      text-decoration: none;
-      font-size: 0.9rem;
-      opacity: 0.85;
-      transition: opacity 0.2s;
-    }
-
-    footer .footer-links a:hover {
-      opacity: 1;
-      text-decoration: underline;
-    }
-
-    footer .footer-copy {
-      font-size: 0.8rem;
-      opacity: 0.6;
-    }
-
-    /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
-      nav {
-        flex-direction: column;
-        height: auto;
-        padding: 1rem;
-        gap: 0.75rem;
-      }
-
-      .nav-links {
-        gap: 1rem;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
+      nav { flex-direction: column; height: auto; padding: 1rem; gap: 0.75rem; }
+      .nav-links { gap: 1rem; flex-wrap: wrap; justify-content: center; }
     }
   </style>
 </head>
@@ -376,6 +219,7 @@
     <a class="nav-logo" href="#">GOTB Index</a>
     <ul class="nav-links">
       <li><a href="#what-it-measures">What It Measures</a></li>
+      <li><a href="#assessment">Take the Assessment</a></li>
       <li><a href="#free-vs-certified">Free vs. Certified</a></li>
       <li><a href="#find-facilitator">Find a Facilitator</a></li>
     </ul>
@@ -384,10 +228,10 @@
   <!-- HERO -->
   <section class="hero">
     <h1>The Great on Their Behalf Index</h1>
-    <p>A validated self-assessment that measures your board's governance practices against the five-practice GOTB framework — so you know exactly where you stand and what to do next.</p>
+    <p>A self-assessment that measures your board's governance practices against the five-practice GOTB framework — so you know exactly where you stand and what to do next.</p>
     <div class="hero-ctas">
-      <a class="btn btn-ice" href="https://effectiveschoolboards.com/gotb-free/">Take the Free Self-Assessment &rarr;</a>
-      <a class="btn btn-outline" href="#find-facilitator">Find a Certified Facilitator</a>
+      <a class="btn btn-ice" href="#assessment">Take the Free Self-Assessment &darr;</a>
+      <a class="btn btn-outline" href="/facilitator.html">Find a Certified Facilitator</a>
     </div>
   </section>
 
@@ -421,6 +265,103 @@
     </div>
   </section>
 
+  <!-- ASSESSMENT SECTION -->
+  <section class="assessment-section" id="assessment">
+    <div class="assessment-section-header">
+      <span class="section-eyebrow">Free Self-Assessment</span>
+      <h2>GOTB Index: Self Assessment</h2>
+      <p>20 questions &middot; about 10 minutes &middot; your results are personal and private</p>
+    </div>
+
+    <div class="gotb-embed">
+
+      <!-- STEP: Questions -->
+      <div class="gotb-step" id="step-questions">
+        <div id="progress-bar-wrap">
+          <div id="progress-bar-label">Question <span id="q-current">1</span> of 20</div>
+          <div id="progress-bar"><div id="progress-fill"></div></div>
+        </div>
+        <div id="area-nav" role="navigation" aria-label="Practice area progress"></div>
+        <div id="question-area"></div>
+        <div class="gotb-btn-row">
+          <button class="gotb-btn gotb-btn-secondary" id="prev-btn">Back</button>
+          <button class="gotb-btn gotb-btn-primary" id="next-btn">Next</button>
+        </div>
+      </div>
+
+      <!-- STEP: Gate -->
+      <div class="gotb-step" id="step-gate">
+        <div class="gate-card">
+          <h2>Almost there!</h2>
+          <p>Enter your details below and we'll email you a full report — including a diagnosis and first-move recommendations for each practice area.</p>
+          <div class="form-field">
+            <label for="gate-name">Your name</label>
+            <input type="text" id="gate-name" placeholder="First and last name" autocomplete="name" />
+          </div>
+          <div class="form-field">
+            <label for="gate-district">School district</label>
+            <input type="text" id="gate-district" placeholder="e.g. Springfield Unified School District" autocomplete="organization" />
+          </div>
+          <div class="form-field">
+            <label for="gate-email">Email address</label>
+            <input type="email" id="gate-email" placeholder="you@example.com" autocomplete="email" />
+          </div>
+          <p id="gate-error">Please fill in all fields with a valid email address.</p>
+          <button class="gotb-btn gotb-btn-primary" id="submit-btn">Email My Results</button>
+          <p class="privacy-note">By submitting, you agree to receive your results and occasional governance resources from Effective School Boards, LLC. We never sell your information. <a href="https://www.effectiveschoolboards.com/privacy-policy/">Privacy Policy</a></p>
+        </div>
+      </div>
+
+      <!-- STEP: Results -->
+      <div class="gotb-step" id="step-results">
+        <div class="results-header">
+          <h2>GOTB Index: Self Assessment Results</h2>
+          <p id="results-district"></p>
+          <div class="score-circle" id="score-circle">
+            <span class="score-num" id="score-num">—</span>
+            <span class="score-sub">out of 100</span>
+          </div>
+          <div class="score-tier" id="score-tier"></div>
+          <div class="score-indicative">Self-reported, indicative read</div>
+        </div>
+        <div class="results-body">
+          <div class="emailed-notice" id="emailed-notice" style="display:none">
+            <span class="icon">✉️</span>
+            <p>A detailed report has been sent to <strong id="emailed-to"></strong>. Check your inbox (and spam folder if needed).</p>
+          </div>
+          <div class="gap-strength">
+            <div class="gs-card gap">
+              <div class="gs-label">Biggest gap</div>
+              <div class="gs-name" id="gap-label">—</div>
+            </div>
+            <div class="gs-card str">
+              <div class="gs-label">Biggest strength</div>
+              <div class="gs-name" id="strength-label">—</div>
+            </div>
+          </div>
+          <div id="area-bars"></div>
+          <div class="tier-legend">
+            <div class="tier-block tier-ineff"><span class="tier-name">Ineffective</span><span class="tier-range">0–39</span></div>
+            <div class="tier-block tier-emerg"><span class="tier-name">Emerging</span><span class="tier-range">40–69</span></div>
+            <div class="tier-block tier-effec"><span class="tier-name">Effective</span><span class="tier-range">70–79</span></div>
+            <div class="tier-block tier-highe"><span class="tier-name">Highly Effective</span><span class="tier-range">80–100</span></div>
+          </div>
+          <div class="limit-block">
+            <h4>A note on these results</h4>
+            <p>This is a self-assessment — your results reflect your own perception of your board's governance, not a validated external measurement. Use it as a directional read and a starting point for conversation. For a psychometrically validated, evidence-based assessment administered by a certified practitioner, <a href="/facilitator.html" style="color:#1A3A5C;">find a certified facilitator</a>.</p>
+          </div>
+          <div class="results-cta">
+            <h3>Ready to go deeper?</h3>
+            <p>The Certified GOTB Assessment is evidence-based, nationally benchmarked, and administered by a certified practitioner. It gives your full board a validated measurement — not just one member's self-report.</p>
+            <a href="/facilitator.html" class="btn-cta">Find a Certified Facilitator &rarr;</a>
+          </div>
+          <p class="disclaimer">Results are self-reported and indicative only. The GOTB Index: Self Assessment is not a clinical or psychometric instrument. &copy; 2026 Effective School Boards, LLC</p>
+        </div>
+      </div>
+
+    </div><!-- end .gotb-embed -->
+  </section>
+
   <!-- FREE VS CERTIFIED -->
   <section id="free-vs-certified">
     <div class="section-inner">
@@ -432,9 +373,9 @@
             <li>5-practice survey completed by individual board members</li>
             <li>Immediate results + practice-level scores</li>
             <li>No facilitator required</li>
-            <li>Available at effectiveschoolboards.com/gotb-free/</li>
+            <li>Take it right here on this page</li>
           </ul>
-          <a class="btn btn-navy" href="https://effectiveschoolboards.com/gotb-free/">Take It Free &rarr;</a>
+          <a class="btn btn-navy" href="#assessment">Take It Free &uarr;</a>
         </div>
         <div class="compare-card card-dark">
           <h3>Certified Assessment</h3>
@@ -444,7 +385,7 @@
             <li>Facilitated debrief with a Certified Facilitator</li>
             <li>Written governance improvement recommendations</li>
           </ul>
-          <a class="btn btn-white" href="#find-facilitator">Find a Facilitator &rarr;</a>
+          <a class="btn btn-white" href="/facilitator.html">Find a Facilitator &rarr;</a>
         </div>
       </div>
     </div>
@@ -464,7 +405,7 @@
     <div class="section-inner">
       <h2 class="section-heading">Find a GOTB Certified Facilitator</h2>
       <p class="facilitator-text">A Certified Facilitator guides your full board through the GOTB Index assessment and debrief — turning scores into committed governance improvements.</p>
-      <a class="btn btn-navy" href="https://effectiveschoolboards.com">Connect with a Certified Facilitator</a>
+      <a class="btn btn-navy" href="/facilitator.html">Connect with a Certified Facilitator</a>
     </div>
   </section>
 
@@ -478,6 +419,321 @@
     </div>
     <div class="footer-copy">&copy; 2026 Effective School Boards, LLC</div>
   </footer>
+
+  <script>
+  (function() {
+    var QUESTIONS_API = 'https://esbcloud.taild49f53.ts.net:8443/gotb/questions';
+    var API = 'https://esbcloud.taild49f53.ts.net:8443/gotb/submit';
+
+    var AREAS = [
+      { id: 'focus',       label: 'Focus Mindset',       desc: 'Keeping the board\'s attention on student outcomes',  max: 10 },
+      { id: 'priorities',  label: 'Clarify Priorities',  desc: 'Setting clear, written goals and guardrails',         max: 35 },
+      { id: 'monitor',     label: 'Monitor Progress',    desc: 'Reviewing real evidence and acting on it',            max: 30 },
+      { id: 'align',       label: 'Align Resources',     desc: 'Connecting big decisions to your goals',              max: 20 },
+      { id: 'communicate', label: 'Communicate Results', desc: 'Honest, plain-language reporting to the community',   max: 5  },
+    ];
+
+    var FALLBACK_QUESTIONS = [
+      { area: 0, text: 'Our board spends the majority of its meeting time on student outcomes, not operational updates.' },
+      { area: 0, text: 'When we debate a decision, we keep coming back to how it affects what students are actually learning.' },
+      { area: 0, text: 'We hold ourselves — the adults — responsible for changing our own behavior, not just asking staff to change theirs.' },
+      { area: 0, text: 'A visitor watching one of our meetings would walk away knowing students are this board\'s top priority.' },
+      { area: 1, text: 'Our board has a small number of clear, written goals for student outcomes.' },
+      { area: 1, text: 'Each of us can name our district\'s most important student outcome goals without looking them up.' },
+      { area: 1, text: 'We have set clear guardrails for what the superintendent may and may not do in pursuing those goals.' },
+      { area: 1, text: 'Our goals are specific and measurable enough that we\'d know whether we hit them.' },
+      { area: 2, text: 'We regularly review data on whether students are improving toward our goals.' },
+      { area: 2, text: 'We know right now whether our district is on track to meet its student outcome goals.' },
+      { area: 2, text: 'We spend protected time at meetings monitoring progress, not just hearing reports.' },
+      { area: 2, text: 'When the data shows progress has stalled, we ask what we as a board need to change.' },
+      { area: 3, text: 'Our budget visibly reflects our top student outcome goals.' },
+      { area: 3, text: 'When we approve a major expenditure, we can point to the goal it advances.' },
+      { area: 3, text: 'We are willing to stop funding things that don\'t move our goals, not just add new things.' },
+      { area: 3, text: 'Our calendar and policy decisions are made with our student outcome goals in mind.' },
+      { area: 4, text: 'We communicate our goals and our progress to the community in plain, jargon-free language.' },
+      { area: 4, text: 'We share results honestly with the community, including where we are falling short.' },
+      { area: 4, text: 'The community has clear, regular ways to hear how the district is doing on its goals.' },
+      { area: 4, text: 'We make decisions based on what the whole community needs, not only the loudest voices in the room.' },
+    ];
+
+    var QUESTIONS = [];
+
+    var SCALE = [
+      { name: 'Ineffective',      desc: 'We don\'t do this',             cls: 'c0' },
+      { name: 'Emerging',         desc: 'We do this sometimes',          cls: 'c1' },
+      { name: 'Effective',        desc: 'We do this consistently',       cls: 'c2' },
+      { name: 'Highly Effective', desc: 'This is how we always operate', cls: 'c3' },
+    ];
+
+    var answers    = [];
+    var areaIdx    = 0;
+    var qIdxInArea = 0;
+
+    function areaRawSum(ai) {
+      return QUESTIONS.reduce(function(sum, q, qi) {
+        return q.area === ai ? sum + (answers[qi] >= 0 ? answers[qi] : 0) : sum;
+      }, 0);
+    }
+
+    function areaScore(ai) {
+      var qs = QUESTIONS.filter(function(q){ return q.area === ai; });
+      return Math.round((areaRawSum(ai) / (qs.length * 3)) * AREAS[ai].max * 10) / 10;
+    }
+
+    function areaPercent(ai) {
+      var qs = QUESTIONS.filter(function(q){ return q.area === ai; });
+      return Math.round(areaRawSum(ai) / (qs.length * 3) * 100);
+    }
+
+    function overallScore() {
+      var sum = 0;
+      for (var i = 0; i < AREAS.length; i++) sum += areaScore(i);
+      return Math.round(sum);
+    }
+
+    function getRating(s) {
+      if (s >= 80) return 'Highly Effective (indicative)';
+      if (s >= 70) return 'Effective (indicative)';
+      if (s >= 40) return 'Emerging (indicative)';
+      return 'Ineffective (indicative)';
+    }
+
+    function tierColorClass(s) {
+      if (s >= 80) return 'tier-highe';
+      if (s >= 70) return 'tier-effec';
+      if (s >= 40) return 'tier-emerg';
+      return 'tier-ineff';
+    }
+
+    function barColor(areaId) {
+      var colors = ['#4a86c8', '#e07b00', '#3a9c5b', '#8e44ad', '#2c3e50'];
+      return colors[areaId];
+    }
+
+    function globalQIdx() {
+      var base = 0;
+      for (var a = 0; a < areaIdx; a++) base += QUESTIONS.filter(function(q){ return q.area === a; }).length;
+      return base + qIdxInArea;
+    }
+
+    function areaQuestions(a) { return QUESTIONS.filter(function(q){ return q.area === a; }); }
+
+    function renderQuestion() {
+      var area = AREAS[areaIdx];
+      var qs   = areaQuestions(areaIdx);
+      var gIdx = globalQIdx();
+
+      document.getElementById('q-current').textContent = gIdx + 1;
+      document.getElementById('progress-fill').style.width = (((gIdx + 1) / QUESTIONS.length) * 100) + '%';
+
+      var nav = document.getElementById('area-nav');
+      nav.innerHTML = '';
+      for (var a = 0; a < AREAS.length; a++) {
+        var dot = document.createElement('button');
+        dot.className = 'area-dot' + (a < areaIdx ? ' done' : '') + (a === areaIdx ? ' current' : '');
+        dot.setAttribute('aria-label', AREAS[a].label);
+        dot.setAttribute('title', AREAS[a].label);
+        nav.appendChild(dot);
+      }
+
+      var html = '<div class="area-header">'
+        + '<span class="area-pill">Practice ' + (areaIdx + 1) + ' of 5</span>'
+        + '<span class="area-desc">' + area.label + ' — ' + area.desc + '</span>'
+        + '</div>'
+        + '<div class="question-card">'
+        + '<div class="q-num">Question ' + (gIdx + 1) + ' of ' + QUESTIONS.length + '</div>'
+        + '<div class="q-text">' + qs[qIdxInArea].text + '</div>'
+        + '<div class="choices">';
+
+      for (var c = 0; c < SCALE.length; c++) {
+        var sel = answers[gIdx] === c ? ' selected' : '';
+        html += '<label class="choice-label ' + SCALE[c].cls + sel + '" data-choice="' + c + '">'
+          + '<input type="radio" name="q' + gIdx + '" value="' + c + '"' + (answers[gIdx] === c ? ' checked' : '') + '>'
+          + '<span class="choice-dot"></span>'
+          + '<span class="choice-main">'
+          + '<span class="choice-name">' + SCALE[c].name + '</span>'
+          + '<span class="choice-desc">' + SCALE[c].desc + '</span>'
+          + '</span></label>';
+      }
+
+      html += '</div></div>';
+      document.getElementById('question-area').innerHTML = html;
+
+      var labels = document.querySelectorAll('.choice-label');
+      labels.forEach(function(lbl) {
+        lbl.addEventListener('click', function() {
+          var ci = parseInt(this.getAttribute('data-choice'));
+          answers[globalQIdx()] = ci;
+          labels.forEach(function(l){ l.classList.remove('selected'); });
+          this.classList.add('selected');
+          var radio = this.querySelector('input[type=radio]');
+          if (radio) radio.checked = true;
+        });
+      });
+
+      document.getElementById('prev-btn').style.display = (areaIdx === 0 && qIdxInArea === 0) ? 'none' : '';
+      document.getElementById('next-btn').textContent =
+        (areaIdx === AREAS.length - 1 && qIdxInArea === qs.length - 1) ? 'See Results' : 'Next';
+    }
+
+    function goNext() {
+      var gIdx = globalQIdx();
+      if (answers[gIdx] < 0) {
+        document.querySelectorAll('.question-card').forEach(function(c){ c.style.borderColor = '#e57373'; });
+        return;
+      }
+      var qs = areaQuestions(areaIdx);
+      if (qIdxInArea < qs.length - 1) {
+        qIdxInArea++;
+      } else if (areaIdx < AREAS.length - 1) {
+        areaIdx++;
+        qIdxInArea = 0;
+      } else {
+        showGate();
+        return;
+      }
+      renderQuestion();
+    }
+
+    function goPrev() {
+      if (qIdxInArea > 0) {
+        qIdxInArea--;
+      } else if (areaIdx > 0) {
+        areaIdx--;
+        qIdxInArea = areaQuestions(areaIdx).length - 1;
+      }
+      renderQuestion();
+    }
+
+    function showStep(id) {
+      document.querySelectorAll('.gotb-step').forEach(function(s){ s.classList.remove('active'); });
+      document.getElementById(id).classList.add('active');
+    }
+
+    function showGate() {
+      showStep('step-gate');
+      window.scrollTo({ top: document.getElementById('assessment').offsetTop - 70, behavior: 'smooth' });
+    }
+
+    function showResults(name, district, email, emailSent) {
+      showStep('step-results');
+      window.scrollTo({ top: document.getElementById('assessment').offsetTop - 70, behavior: 'smooth' });
+
+      var overall = overallScore();
+      var rating  = getRating(overall);
+      var tcc     = tierColorClass(overall);
+
+      var circle = document.getElementById('score-circle');
+      circle.className = 'score-circle';
+      circle.classList.add(tcc);
+      document.getElementById('score-num').textContent = overall;
+      var tierEl = document.getElementById('score-tier');
+      tierEl.textContent = rating;
+      tierEl.className = 'score-tier';
+      if (overall >= 75) tierEl.style.color = '#adc9e8';
+      else if (overall >= 40) tierEl.style.color = '#a8d5b5';
+      else if (overall >= 15) tierEl.style.color = '#fce5cd';
+      else tierEl.style.color = '#f5cbcc';
+
+      document.getElementById('results-district').textContent = district;
+
+      if (emailSent) {
+        var notice = document.getElementById('emailed-notice');
+        notice.style.display = 'flex';
+        document.getElementById('emailed-to').textContent = email;
+      }
+
+      var areaPcts = AREAS.map(function(a, i){ return { label: a.label, pct: areaPercent(i) }; });
+      var sorted = areaPcts.slice().sort(function(a,b){ return a.pct - b.pct; });
+      document.getElementById('gap-label').textContent = sorted[0].label;
+      document.getElementById('strength-label').textContent = sorted[sorted.length - 1].label;
+
+      var barsHtml = '';
+      AREAS.forEach(function(area, i) {
+        var s   = areaScore(i);
+        var pct = areaPercent(i);
+        var color = barColor(i);
+        barsHtml += '<div class="area-bar-row">'
+          + '<div class="area-bar-label"><span>' + area.label + '</span><span>' + s + ' / ' + area.max + '</span></div>'
+          + '<div class="area-bar-track"><div class="area-bar-fill" style="width:' + pct + '%;background:' + color + ';"></div></div>'
+          + '</div>';
+      });
+      document.getElementById('area-bars').innerHTML = barsHtml;
+    }
+
+    function submitGate() {
+      var name     = document.getElementById('gate-name').value.trim();
+      var district = document.getElementById('gate-district').value.trim();
+      var email    = document.getElementById('gate-email').value.trim();
+      var errEl    = document.getElementById('gate-error');
+
+      if (!name || !district || !email || !email.includes('@') || !email.includes('.')) {
+        errEl.style.display = 'block';
+        return;
+      }
+      errEl.style.display = 'none';
+
+      var btn = document.getElementById('submit-btn');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      var overall = overallScore();
+      var rating  = getRating(overall);
+
+      fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          district: district,
+          email: email,
+          total_score: overall,
+          rating: rating,
+          score_focus:       areaPercent(0),
+          score_priorities:  areaPercent(1),
+          score_monitor:     areaPercent(2),
+          score_align:       areaPercent(3),
+          score_communicate: areaPercent(4),
+          source: 'gotbindex.com',
+        }),
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        showResults(name, district, email, !!(data && data.sent));
+      })
+      .catch(function(){
+        showResults(name, district, email, false);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('next-btn').addEventListener('click', goNext);
+      document.getElementById('prev-btn').addEventListener('click', goPrev);
+      document.getElementById('submit-btn').addEventListener('click', submitGate);
+      document.getElementById('gate-email').addEventListener('keydown', function(e){
+        if (e.key === 'Enter') submitGate();
+      });
+
+      var qArea = document.getElementById('question-area');
+      qArea.innerHTML = '<div style="padding:2rem;text-align:center;color:#777;font-size:14px;">Loading questions…</div>';
+      showStep('step-questions');
+
+      fetch(QUESTIONS_API)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var qs = (data && data.free && data.free.length) ? data.free : FALLBACK_QUESTIONS;
+          QUESTIONS = qs.map(function(q) { return { area: q.area, text: q.text }; });
+          answers = new Array(QUESTIONS.length).fill(-1);
+          renderQuestion();
+        })
+        .catch(function() {
+          QUESTIONS = FALLBACK_QUESTIONS;
+          answers = new Array(QUESTIONS.length).fill(-1);
+          renderQuestion();
+        });
+    });
+  })();
+  </script>
 
 </body>
 </html>
