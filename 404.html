@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GOTB Index</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --navy:#1A3A5C; --ice:#EBF2F8; }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Inter',sans-serif; }
+    .state { min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:24px; background:var(--navy); color:#fff; }
+    .box { max-width:460px; }
+    .box h1 { font-size:1.6rem; margin-bottom:.5rem; font-weight:700; }
+    .box p { opacity:.9; font-weight:300; line-height:1.6; }
+    .box a { color:var(--ice); }
+    .spin { width:34px; height:34px; border:3px solid rgba(255,255,255,.25); border-top-color:#fff; border-radius:50%; margin:0 auto 16px; animation:s .8s linear infinite; }
+    @keyframes s { to { transform:rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <!-- GOTB Index vanity-link resolver. GitHub Pages serves this file for any
+       path it has no file for, so gotbindex.com/Effective-X-Y lands here. Real
+       pages (/, /facilitator.html, the self-assessment) are unaffected. We hand
+       the name to the GOTB portal resolver, which redirects (external links) or
+       renders the document. -->
+  <div class="state" id="state">
+    <div class="box"><div class="spin"></div><p>Loading…</p></div>
+  </div>
+  <script>
+    (function () {
+      var v = decodeURIComponent(location.pathname.replace(/^\/+|\/+$/g, ""));
+      if (v && v.indexOf("/") === -1) {
+        location.replace("https://api.gotb.effectiveschoolboards.com/api/links/go/" + encodeURIComponent(v) + location.search);
+      } else {
+        document.getElementById("state").innerHTML =
+          '<div class="box"><h1>Page not found</h1><p>That page doesn’t exist. <a href="/">Go to the GOTB Index home page</a>.</p></div>';
+      }
+    })();
+  </script>
+</body>
+</html>
