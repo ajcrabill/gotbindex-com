@@ -22,21 +22,33 @@
 <body>
   <!-- GOTB Index vanity-link resolver. GitHub Pages serves this file for any
        path it has no file for, so gotbindex.com/Effective-X-Y lands here. Real
-       pages (/, /facilitator.html, the self-assessment) are unaffected. We hand
-       the name to the GOTB portal resolver, which redirects (external links) or
-       renders the document. -->
+       pages (/, /facilitator.html, the self-assessment) are unaffected. We ask
+       the GOTB portal resolver what the name maps to: external links redirect,
+       KB documents render here in-place so the gotbindex.com URL is preserved. -->
   <div class="state" id="state">
     <div class="box"><div class="spin"></div><p>Loading…</p></div>
   </div>
   <script>
     (function () {
+      var API = "https://api.gotb.effectiveschoolboards.com/api/links";
       var v = decodeURIComponent(location.pathname.replace(/^\/+|\/+$/g, ""));
-      if (v && v.indexOf("/") === -1) {
-        location.replace("https://api.gotb.effectiveschoolboards.com/api/links/go/" + encodeURIComponent(v) + location.search);
-      } else {
+      function notFound() {
         document.getElementById("state").innerHTML =
           '<div class="box"><h1>Page not found</h1><p>That page doesn’t exist. <a href="/">Go to the GOTB Index home page</a>.</p></div>';
       }
+      if (!v || v.indexOf("/") !== -1) { notFound(); return; }
+      fetch(API + "/resolve/" + encodeURIComponent(v))
+        .then(function (r) { return r.ok ? r.json() : { found: false }; })
+        .then(function (d) {
+          if (!d || !d.found) { notFound(); return; }
+          if (d.kind === "redirect") { location.replace(d.url); return; }
+          // Document: render the portal's branded page in-place; URL stays gotbindex.com/Effective-X-Y.
+          document.open(); document.write(d.html); document.close();
+        })
+        .catch(function () {
+          // Network/CORS fallback: hand off to the server-rendered resolver.
+          location.replace(API + "/go/" + encodeURIComponent(v) + location.search);
+        });
     })();
   </script>
 </body>
