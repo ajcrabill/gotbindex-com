@@ -341,7 +341,7 @@
           </div>
           <div id="area-bars"></div>
           <div class="tier-legend">
-            <div class="tier-block tier-ineff"><span class="tier-name">Ineffective</span><span class="tier-range">0–39</span></div>
+            <div class="tier-block tier-ineff"><span class="tier-name">Beginning</span><span class="tier-range">0–39</span></div>
             <div class="tier-block tier-emerg"><span class="tier-name">Emerging</span><span class="tier-range">40–69</span></div>
             <div class="tier-block tier-effec"><span class="tier-name">Effective</span><span class="tier-range">70–79</span></div>
             <div class="tier-block tier-highe"><span class="tier-name">Highly Effective</span><span class="tier-range">80–100</span></div>
@@ -424,6 +424,7 @@
   (function() {
     var QUESTIONS_API = 'https://esbcloud.taild49f53.ts.net:8443/gotb/questions';
     var API = 'https://esbcloud.taild49f53.ts.net:8443/gotb/submit';
+    var FUNNEL_API = 'https://api.gotb.effectiveschoolboards.com/api/directory/leads/inbound/gotb-free';
 
     var AREAS = [
       { id: 'focus',       label: 'Focus Mindset',       desc: 'Keeping the board\'s attention on student outcomes',  max: 10 },
@@ -459,7 +460,7 @@
     var QUESTIONS = [];
 
     var SCALE = [
-      { name: 'Ineffective',      desc: 'We don\'t do this',             cls: 'c0' },
+      { name: 'Beginning',      desc: 'We don\'t do this',             cls: 'c0' },
       { name: 'Emerging',         desc: 'We do this sometimes',          cls: 'c1' },
       { name: 'Effective',        desc: 'We do this consistently',       cls: 'c2' },
       { name: 'Highly Effective', desc: 'This is how we always operate', cls: 'c3' },
@@ -495,7 +496,13 @@
       if (s >= 80) return 'Highly Effective (indicative)';
       if (s >= 70) return 'Effective (indicative)';
       if (s >= 40) return 'Emerging (indicative)';
-      return 'Ineffective (indicative)';
+      return 'Beginning (indicative)';
+    }
+
+    // Whatever this page's own URL carries -- no deeper visit instrumentation upstream of this.
+    function getUtmParams() {
+      var p = new URLSearchParams(location.search);
+      return { source: p.get('utm_source'), medium: p.get('utm_medium'), campaign: p.get('utm_campaign') };
     }
 
     function tierColorClass(s) {
@@ -679,23 +686,48 @@
 
       var overall = overallScore();
       var rating  = getRating(overall);
+      var utm = getUtmParams();
+      // Every individual response, self-describing (question text + area +
+      // the chosen scale label) so the funnel admin can review exactly how
+      // someone answered, not just their rolled-up scores.
+      var fullAnswers = QUESTIONS.map(function (q, i) {
+        return {
+          area: AREAS[q.area].label,
+          question: q.text,
+          answer: answers[i] >= 0 ? SCALE[answers[i]].name : null,
+        };
+      });
+      var payload = {
+        name: name,
+        district: district,
+        email: email,
+        total_score: overall,
+        rating: rating,
+        score_focus:       areaPercent(0),
+        score_priorities:  areaPercent(1),
+        score_monitor:     areaPercent(2),
+        score_align:       areaPercent(3),
+        score_communicate: areaPercent(4),
+        answers:       fullAnswers,
+        referrer:      document.referrer || null,
+        landing_path:  location.pathname + location.search,
+        utm_source:    utm.source,
+        utm_medium:    utm.medium,
+        utm_campaign:  utm.campaign,
+      };
+
+      // Fire-and-forget into the GOTB portal's lead funnel -- best-effort,
+      // never blocks or affects the emailed-results flow below.
+      fetch(FUNNEL_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }).catch(function(){ /* funnel capture is best-effort */ });
 
       fetch(API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: name,
-          district: district,
-          email: email,
-          total_score: overall,
-          rating: rating,
-          score_focus:       areaPercent(0),
-          score_priorities:  areaPercent(1),
-          score_monitor:     areaPercent(2),
-          score_align:       areaPercent(3),
-          score_communicate: areaPercent(4),
-          source: 'gotbindex.com',
-        }),
+        body: JSON.stringify(Object.assign({}, payload, { source: 'gotbindex.com' })),
       })
       .then(function(r){ return r.json(); })
       .then(function(data){
