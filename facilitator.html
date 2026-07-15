@@ -252,10 +252,22 @@
 
   <script>
   (function () {
+    var FUNNEL_API = 'https://api.gotb.effectiveschoolboards.com/api/directory/leads/inbound/consultation';
+
     var form    = document.getElementById('facilitator-form');
     var btn     = document.getElementById('form-submit-btn');
     var errEl   = document.getElementById('form-error');
     var success = document.getElementById('success-msg');
+
+    // If this page was reached from the GOTB Index self-assessment's CTA, it
+    // carries the same person's lead_id forward (plus name/email/district to
+    // pre-fill) so this request merges into their existing funnel row
+    // instead of creating a disconnected second one.
+    var qp = new URLSearchParams(location.search);
+    var leadId = qp.get('lead_id') || '';
+    if (qp.get('name')) document.getElementById('f-name').value = qp.get('name');
+    if (qp.get('email')) document.getElementById('f-email').value = qp.get('email');
+    if (qp.get('district')) document.getElementById('f-district').value = qp.get('district');
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -265,6 +277,7 @@
       var district = document.getElementById('f-district').value.trim();
       var state    = document.getElementById('f-state').value;
       var role     = document.getElementById('f-role').value;
+      var goals    = document.getElementById('f-goals').value.trim();
 
       if (!name || !email || !district || !state || !role || !email.includes('@') || !email.includes('.')) {
         errEl.style.display = 'block';
@@ -276,6 +289,20 @@
       btn.disabled = true;
 
       var data = new FormData(form);
+
+      // Funnel capture -- best-effort, fire-and-forget, never blocks the
+      // Formspree flow below (this form's existing notification channel).
+      var funnelPayload = {
+        name: name, email: email, title: role,
+        schoolsystem: state ? (district + ', ' + state) : district,
+        message: goals,
+      };
+      if (leadId) funnelPayload.lead_id = leadId;
+      fetch(FUNNEL_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(funnelPayload),
+      }).catch(function(){ /* best-effort */ });
 
       fetch('https://formspree.io/f/xayzdydv', {
         method: 'POST',

@@ -353,7 +353,7 @@
           <div class="results-cta">
             <h3>Ready to go deeper?</h3>
             <p>The Certified GOTB Assessment is evidence-based, nationally benchmarked, and administered by a certified practitioner. It gives your full board a validated measurement — not just one member's self-report.</p>
-            <a href="/facilitator.html" class="btn-cta">Find a Certified Facilitator &rarr;</a>
+            <a href="/facilitator.html" id="consultation-cta" class="btn-cta">Find a Certified Facilitator &rarr;</a>
           </div>
           <p class="disclaimer">Results are self-reported and indicative only. The GOTB Index: Self Assessment is not a clinical or psychometric instrument. &copy; 2026 Effective School Boards, LLC</p>
         </div>
@@ -717,12 +717,27 @@
       };
 
       // Fire-and-forget into the GOTB portal's lead funnel -- best-effort,
-      // never blocks or affects the emailed-results flow below.
+      // never blocks or affects the emailed-results flow below. Once it
+      // resolves, carry the resulting lead_id forward into the "Find a
+      // Certified Facilitator" CTA so a follow-up request from the SAME
+      // person merges into this same funnel row instead of creating a
+      // disconnected second one.
       fetch(FUNNEL_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
-      }).catch(function(){ /* funnel capture is best-effort */ });
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if (!data || !data.lead_id) return;
+        var cta = document.getElementById('consultation-cta');
+        if (!cta) return;
+        var params = new URLSearchParams({
+          lead_id: data.lead_id, name: name, email: email, district: district,
+        });
+        cta.href = '/facilitator.html?' + params.toString();
+      })
+      .catch(function(){ /* funnel capture is best-effort */ });
 
       fetch(API, {
         method: 'POST',
