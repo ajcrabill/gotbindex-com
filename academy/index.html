@@ -110,6 +110,19 @@
 
     .thesis { text-align: center; font-family: "Raleway", serif; font-weight: 700; font-size: clamp(1.1rem, 2.4vw, 1.5rem); color: var(--navy); max-width: 30ch; margin: 0 auto; line-height: 1.4; }
 
+    /* MEMBERSHIP paywall + sign-in */
+    .plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .plan { display: block; border: 1.5px solid #cdd8e8; border-radius: 10px; padding: 1.15rem 1.25rem; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; position: relative; }
+    .plan:has(input:checked) { border-color: var(--sky); box-shadow: 0 0 0 3px rgba(68,149,213,0.14); }
+    .plan input { position: absolute; opacity: 0; }
+    .plan-name { display: block; font-family: "Poppins", sans-serif; font-weight: 600; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sky); }
+    .plan-price { display: block; font-family: "Raleway", serif; font-weight: 800; font-size: 1.9rem; color: var(--navy); margin: 0.2rem 0; }
+    .plan-per { font-size: 0.9rem; font-weight: 600; color: var(--muted); }
+    .plan-note { display: block; font-size: 0.82rem; color: var(--muted); }
+    .sub-form { max-width: 420px; margin: 0 auto; }
+    .sub-form input { width: 100%; padding: 0.7rem 0.9rem; margin-bottom: 0.9rem; border: 1px solid #cdd8e8; border-radius: 6px; font: inherit; color: var(--body); }
+    .member-badge { display: inline-block; font-family: "Poppins", sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--navy); background: rgba(68,149,213,0.14); border-radius: 999px; padding: 0.2rem 0.7rem; }
+
     /* FOOTER */
     footer { background: var(--deep-navy); color: var(--white); text-align: center; padding: 2.5rem 2rem; }
     footer .footer-brand { font-family: "Poppins", sans-serif; font-size: 0.95rem; font-weight: 500; margin-bottom: 0.9rem; }
@@ -169,7 +182,7 @@
 
         <!-- STEP: pick -->
         <div id="stage-pick">
-          <p class="diag-prompt">Choose a distinction to practice. You can try as many as you like.</p>
+          <p class="diag-prompt" id="pick-prompt">Choose a distinction to practice. Your first two are free.</p>
           <div class="practice-grid" id="practice-grid"></div>
         </div>
 
@@ -193,6 +206,56 @@
             <button class="btn btn-ice" id="again-btn">Try another distinction</button>
             <a class="btn btn-sky" href="#connect" style="margin-left:0.6rem;">Get support for your board</a>
           </div>
+        </div>
+
+        <!-- STEP: paywall (membership) -->
+        <div id="stage-paywall" class="hidden">
+          <div class="center">
+            <div class="eyebrow" style="color:var(--sky);">Membership</div>
+            <h3 style="margin:0.5rem 0 0.75rem;">You have used your two free diagnostics</h3>
+            <p style="max-width:54ch;margin:0 auto 1.75rem;color:#4a5170;">A <span class="brand">Great On Their Behalf</span> Academy membership gives you unlimited practice across every distinction, plus newsletter membership. Board members and superintendents are both welcome.</p>
+          </div>
+          <div class="plan-grid">
+            <label class="plan">
+              <input type="radio" name="plan" value="annual" checked />
+              <span class="plan-name">Annual</span>
+              <span class="plan-price">$999<span class="plan-per"> / year</span></span>
+              <span class="plan-note">Two months free compared to monthly</span>
+            </label>
+            <label class="plan">
+              <input type="radio" name="plan" value="monthly" />
+              <span class="plan-name">Monthly</span>
+              <span class="plan-price">$99<span class="plan-per"> / month</span></span>
+              <span class="plan-note">Cancel anytime</span>
+            </label>
+          </div>
+          <div class="sub-form">
+            <input type="text" id="s-name" placeholder="Your name" autocomplete="name" />
+            <input type="email" id="s-email" placeholder="Email (this becomes your sign-in)" autocomplete="email" />
+            <p class="form-err" id="sub-err" style="color:var(--warn);display:none;">Please add your name and a valid email address.</p>
+            <button class="btn btn-sky" id="subscribe-btn" style="width:100%;">Become a member</button>
+          </div>
+          <p class="center" style="margin-top:1.1rem;font-size:0.9rem;">Already a member? <a href="#" id="show-signin">Sign in</a></p>
+        </div>
+
+        <!-- STEP: member sign-in -->
+        <div id="stage-signin" class="hidden">
+          <div class="center">
+            <h3 style="margin-bottom:0.5rem;">Member sign-in</h3>
+            <p style="color:#4a5170;margin-bottom:1.25rem;" id="signin-help">Enter your member email and we will send you a one-time code.</p>
+          </div>
+          <div class="sub-form">
+            <div id="signin-email-step">
+              <input type="email" id="si-email" placeholder="Your member email" autocomplete="email" />
+              <button class="btn btn-sky" id="si-send-btn" style="width:100%;">Send my code</button>
+            </div>
+            <div id="signin-code-step" class="hidden">
+              <input type="text" id="si-code" placeholder="6-digit code" inputmode="numeric" />
+              <button class="btn btn-sky" id="si-verify-btn" style="width:100%;">Sign in</button>
+            </div>
+            <p class="form-err" id="si-err" style="color:var(--warn);display:none;"></p>
+          </div>
+          <p class="center" style="margin-top:1.1rem;font-size:0.9rem;"><a href="#" id="signin-back">Back to practice</a></p>
         </div>
 
       </div>
@@ -244,19 +307,42 @@
     'use strict';
 
     var API = 'https://api.gotb.effectiveschoolboards.com/api/academy';
+    var AUTH = 'https://api.gotb.effectiveschoolboards.com/api/auth';
+    var FREE_KEY = 'gotb_academy_session';   // signed free-count token
+    var MEMBER_KEY = 'gotb_academy_member';   // member bearer token
 
     var current = null;      // the active practice {slug, title, prompt, categories}
     var scenario = null;     // the generated scenario
     var answers = {};        // served_item_id -> category key
     var lastResult = null;   // for the lead summary
+    var freeToken = null;
+    var memberToken = null;
+    try {
+      freeToken = localStorage.getItem(FREE_KEY);
+      memberToken = localStorage.getItem(MEMBER_KEY);
+    } catch (e) { /* private mode */ }
 
     var el = function (id) { return document.getElementById(id); };
 
+    function headers() {
+      var h = { 'Content-Type': 'application/json' };
+      if (memberToken) h['Authorization'] = 'Bearer ' + memberToken;
+      return h;
+    }
+    function store(key, val) { try { localStorage.setItem(key, val); } catch (e) { /* ignore */ } }
+    function scrollDiag() { window.scrollTo({ top: el('diagnostic').offsetTop - 40, behavior: 'smooth' }); }
+
     function show(stage) {
-      ['stage-pick', 'stage-answer', 'stage-results'].forEach(function (s) {
+      ['stage-pick', 'stage-answer', 'stage-results', 'stage-paywall', 'stage-signin'].forEach(function (s) {
         el(s).classList.toggle('hidden', s !== stage);
       });
     }
+
+    function markMember() {
+      el('pick-prompt').innerHTML = 'You are a member. Practice as much as you like. '
+        + '<span class="member-badge">Member</span>';
+    }
+    if (memberToken) markMember();
 
     // ---- load practices ----
     fetch(API + '/tools')
@@ -284,15 +370,17 @@
       answers = {};
       fetch(API + '/scenarios/generate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tool_slug: tool.slug }),
+        headers: headers(),
+        body: JSON.stringify({ tool_slug: tool.slug, session: freeToken }),
       })
         .then(function (r) { return r.json(); })
         .then(function (data) {
+          if (data.paywall) { show('stage-paywall'); scrollDiag(); return; }
+          if (data.member) markMember();
           scenario = data;
           renderItems(data);
           show('stage-answer');
-          window.scrollTo({ top: el('diagnostic').offsetTop - 40, behavior: 'smooth' });
+          scrollDiag();
         });
     }
 
@@ -332,11 +420,15 @@
     el('submit-btn').addEventListener('click', function () {
       fetch(API + '/attempts', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ scenario_id: scenario.scenario_id, answers: answers }),
+        headers: headers(),
+        body: JSON.stringify({ scenario_id: scenario.scenario_id, answers: answers, session: freeToken }),
       })
         .then(function (r) { return r.json(); })
-        .then(function (out) { renderResults(out); });
+        .then(function (out) {
+          if (out.session) { freeToken = out.session; store(FREE_KEY, freeToken); }
+          if (out.member) markMember();
+          renderResults(out);
+        });
     });
 
     function renderResults(out) {
@@ -410,6 +502,103 @@
       el('lead-form-wrap').style.display = 'none';
       el('lead-success').style.display = 'block';
     });
+
+    // ---- membership checkout ----
+    el('subscribe-btn').addEventListener('click', function () {
+      var name = el('s-name').value.trim();
+      var email = el('s-email').value.trim();
+      var plan = (document.querySelector('input[name="plan"]:checked') || {}).value || 'annual';
+      if (!name || !email || !email.includes('@') || !email.includes('.')) {
+        el('sub-err').style.display = 'block';
+        return;
+      }
+      el('sub-err').style.display = 'none';
+      var btn = el('subscribe-btn');
+      btn.textContent = 'Redirecting to checkout';
+      btn.disabled = true;
+      fetch(API + '/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, email: email, plan: plan }),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (out) {
+          if (out.checkout_url) { window.location.href = out.checkout_url; }
+          else { throw new Error('no url'); }
+        })
+        .catch(function () {
+          btn.textContent = 'Become a member';
+          btn.disabled = false;
+          el('sub-err').textContent = 'Checkout is briefly unavailable. Please try again shortly.';
+          el('sub-err').style.display = 'block';
+        });
+    });
+
+    // ---- member sign-in (OTP) ----
+    el('show-signin').addEventListener('click', function (e) { e.preventDefault(); show('stage-signin'); scrollDiag(); });
+    el('signin-back').addEventListener('click', function (e) { e.preventDefault(); show('stage-pick'); scrollDiag(); });
+
+    var siEmail = '';
+    el('si-send-btn').addEventListener('click', function () {
+      var email = el('si-email').value.trim();
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        el('si-err').textContent = 'Please enter a valid email.';
+        el('si-err').style.display = 'block';
+        return;
+      }
+      siEmail = email;
+      el('si-err').style.display = 'none';
+      var btn = el('si-send-btn');
+      btn.textContent = 'Sending';
+      btn.disabled = true;
+      fetch(AUTH + '/otp/request', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email }),
+      })
+        .then(function () {
+          el('signin-email-step').classList.add('hidden');
+          el('signin-code-step').classList.remove('hidden');
+          el('signin-help').textContent = 'We sent a code to ' + siEmail + '. Enter it below.';
+        })
+        .catch(function () {
+          btn.textContent = 'Send my code'; btn.disabled = false;
+          el('si-err').textContent = 'Could not send a code. Please try again.';
+          el('si-err').style.display = 'block';
+        });
+    });
+
+    el('si-verify-btn').addEventListener('click', function () {
+      var code = el('si-code').value.trim();
+      if (!code) { return; }
+      var btn = el('si-verify-btn');
+      btn.textContent = 'Signing in';
+      btn.disabled = true;
+      fetch(AUTH + '/otp/verify', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: siEmail, code: code }),
+      })
+        .then(function (r) { if (!r.ok) { throw new Error('bad code'); } return r.json(); })
+        .then(function (out) {
+          memberToken = out.token;
+          store(MEMBER_KEY, memberToken);
+          markMember();
+          show('stage-pick');
+          scrollDiag();
+        })
+        .catch(function () {
+          btn.textContent = 'Sign in'; btn.disabled = false;
+          el('si-err').textContent = 'That code did not work. Members: use the email you paid with.';
+          el('si-err').style.display = 'block';
+        });
+    });
+
+    // ---- return from Stripe checkout ----
+    if (/[?&]subscribed=1/.test(location.search)) {
+      show('stage-signin');
+      el('signin-help').textContent = 'Welcome. Your membership is active. '
+        + 'Sign in with the email you paid with to start practicing.';
+      history.replaceState(null, '', location.pathname);
+    }
   })();
   </script>
 
