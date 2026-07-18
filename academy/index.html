@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Great On Their Behalf Academy</title>
+  <meta name="description" content="A free diagnostic that shows where your board's read of governance matches the standard, and where it does not." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Poppins:wght@500;600&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* GOTB Brand Standards -- Foundation palette (0099_brand_standards_kb) */
+      --deep-navy: #15184F;
+      --navy: #263575;
+      --navy-light: #3F67A8;
+      --ice: #EBF2F8;
+      --white: #FFFFFF;
+      --sky: #4495D5;
+      --body: #2b2f4a;
+      --muted: #6d74a8;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--body); line-height: 1.65; background: var(--white); }
+
+    h1, h2, h3 { font-family: "Raleway", serif; color: var(--navy); font-weight: 700; line-height: 1.2; }
+    .brand { font-style: italic; font-weight: 800; }
+    .eyebrow { font-family: "Poppins", sans-serif; font-weight: 600; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky); }
+    .label { font-family: "Poppins", sans-serif; font-weight: 600; letter-spacing: 0.03em; }
+
+    a { color: var(--sky); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: var(--deep-navy); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; height: 64px; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+    .nav-logo { color: var(--white); font-family: "Poppins", sans-serif; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.02em; }
+    .nav-logo:hover { text-decoration: none; opacity: 0.9; }
+    .nav-back { color: var(--ice); font-size: 0.9rem; font-weight: 400; opacity: 0.85; }
+
+    /* BUTTONS */
+    .btn { display: inline-block; font-family: "Poppins", sans-serif; font-weight: 600; font-size: 1rem; padding: 0.85rem 1.9rem; border-radius: 8px; border: 2px solid transparent; cursor: pointer; transition: opacity 0.15s, transform 0.15s; }
+    .btn:hover { transform: translateY(-2px); opacity: 0.94; text-decoration: none; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+    .btn-sky { background: var(--sky); color: var(--white); }
+    .btn-ice { background: var(--ice); color: var(--navy); }
+    .btn-outline { background: transparent; color: var(--white); border-color: var(--white); }
+
+    /* HERO */
+    .hero { background: var(--deep-navy); color: var(--white); padding: 5rem 2rem 4.5rem; text-align: center; }
+    .hero .eyebrow { color: #9dc0e6; }
+    .hero h1 { color: var(--white); font-size: clamp(2rem, 5vw, 3.1rem); margin: 0.9rem auto 1.25rem; max-width: 16ch; }
+    .hero p { font-weight: 300; font-size: clamp(1.02rem, 2vw, 1.18rem); max-width: 60ch; margin: 0 auto 2.25rem; color: #dce6f3; }
+
+    /* SECTIONS */
+    section { padding: 4.5rem 2rem; }
+    .inner { max-width: 940px; margin: 0 auto; }
+    .section-ice { background: var(--ice); }
+    h2.section-heading { font-size: clamp(1.5rem, 3vw, 2.1rem); text-align: center; margin-bottom: 2.5rem; }
+
+    /* STEPS */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+    .step { background: var(--white); border: 1px solid #d3ddec; border-left: 4px solid var(--navy-light); border-radius: 10px; padding: 1.75rem 1.5rem; }
+    .step .num { font-family: "Poppins", sans-serif; font-weight: 600; color: var(--sky); font-size: 0.8rem; letter-spacing: 0.1em; }
+    .step h3 { font-size: 1.1rem; margin: 0.4rem 0 0.5rem; }
+    .step p { font-size: 0.95rem; color: #4a5170; }
+
+    /* DIAGNOSTIC */
+    .diag-card { background: var(--white); border: 1px solid #d3ddec; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 22px rgba(21,24,79,0.06); }
+    .practice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; }
+    .practice-pick { text-align: left; background: var(--white); border: 1px solid #cdd8e8; border-radius: 10px; padding: 1.15rem 1.25rem; cursor: pointer; font: inherit; color: var(--body); transition: border-color 0.15s, box-shadow 0.15s; }
+    .practice-pick:hover { border-color: var(--sky); box-shadow: 0 3px 14px rgba(68,149,213,0.16); }
+    .practice-pick .pp-title { font-family: "Raleway", serif; font-weight: 700; color: var(--navy); font-size: 1.05rem; }
+    .practice-pick .pp-sub { font-size: 0.85rem; color: var(--muted); margin-top: 0.25rem; }
+
+    .diag-prompt { background: var(--ice); border-radius: 8px; padding: 0.9rem 1.1rem; font-size: 0.98rem; color: var(--navy); margin-bottom: 1.5rem; }
+    .item { border-top: 1px solid #e2e8f2; padding: 1.4rem 0; }
+    .item:first-of-type { border-top: none; }
+    .item-text { font-size: 1.02rem; color: #23283f; margin-bottom: 0.9rem; }
+    .choices { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .choice { font-family: "Open Sans", sans-serif; font-size: 0.92rem; background: var(--white); border: 1.5px solid #cdd8e8; border-radius: 999px; padding: 0.5rem 1.05rem; cursor: pointer; color: var(--body); transition: all 0.12s; }
+    .choice:hover { border-color: var(--navy-light); }
+    .choice.selected { background: var(--navy); border-color: var(--navy); color: var(--white); }
+    .choice-hint { display: block; font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; }
+
+    /* RESULTS */
+    .result-score { text-align: center; margin-bottom: 1.75rem; }
+    .result-score .big { font-family: "Raleway", serif; font-weight: 800; font-size: 2.6rem; color: var(--navy); }
+    .result-score .cap { font-family: "Poppins", sans-serif; letter-spacing: 0.04em; color: var(--muted); font-size: 0.9rem; }
+    .ritem { border-top: 1px solid #e2e8f2; padding: 1rem 0; }
+    .ritem:first-of-type { border-top: none; }
+    .ritem .rtext { font-size: 0.97rem; color: #23283f; }
+    .ritem .rrow { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; margin-top: 0.5rem; font-size: 0.88rem; }
+    .rmatch { font-family: "Poppins", sans-serif; font-weight: 600; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.15rem 0.6rem; border-radius: 999px; }
+    .rmatch.yes { background: rgba(68,149,213,0.14); color: var(--navy); }
+    .rmatch.no { background: var(--ice); color: var(--navy-light); border: 1px solid #cdd8e8; }
+    .rlbl { color: var(--muted); }
+    .rval { color: var(--navy); font-weight: 600; }
+
+    /* CONVERSION */
+    .convert { background: var(--deep-navy); color: var(--white); }
+    .convert h2 { color: var(--white); }
+    .convert p { color: #dce6f3; max-width: 62ch; margin: 0 auto 1.5rem; }
+    .lead-form { max-width: 480px; margin: 0 auto; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.16); border-radius: 12px; padding: 1.75rem; }
+    .lead-form label { display: block; font-family: "Poppins", sans-serif; font-size: 0.78rem; letter-spacing: 0.03em; color: #b9cbe4; margin-bottom: 0.35rem; }
+    .lead-form input { width: 100%; padding: 0.7rem 0.9rem; margin-bottom: 1.1rem; border: 1px solid rgba(255,255,255,0.22); border-radius: 6px; background: rgba(255,255,255,0.95); font: inherit; color: var(--body); }
+    .lead-form .form-err { color: #ffd7d3; font-size: 0.85rem; margin: -0.4rem 0 0.9rem; display: none; }
+    .lead-success { display: none; text-align: center; }
+    .lead-success h3 { color: var(--white); }
+
+    .thesis { text-align: center; font-family: "Raleway", serif; font-weight: 700; font-size: clamp(1.1rem, 2.4vw, 1.5rem); color: var(--navy); max-width: 30ch; margin: 0 auto; line-height: 1.4; }
+
+    /* FOOTER */
+    footer { background: var(--deep-navy); color: var(--white); text-align: center; padding: 2.5rem 2rem; }
+    footer .footer-brand { font-family: "Poppins", sans-serif; font-size: 0.95rem; font-weight: 500; margin-bottom: 0.9rem; }
+    footer .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 0.9rem; }
+    footer .footer-links a { color: var(--ice); font-size: 0.9rem; opacity: 0.85; }
+    footer .footer-copy { font-size: 0.8rem; opacity: 0.6; }
+
+    .hidden { display: none; }
+    .center { text-align: center; }
+    .mt { margin-top: 1.5rem; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="/">GOTB Index</a>
+    <a class="nav-back" href="/">&larr; Back to GOTB Index</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">The <span class="brand">Great On Their Behalf</span> Academy</div>
+    <h1>How does your board read governance?</h1>
+    <p>School systems exist to improve student outcomes. School boards exist to represent their community's vision and values in pursuit of that one purpose. This free diagnostic puts real governance situations in front of you, then shows where your read matches the standard and where it does not. It takes about five minutes, and your results are your own.</p>
+    <a class="btn btn-sky" href="#diagnostic">Start the diagnostic</a>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section-ice">
+    <div class="inner">
+      <h2 class="section-heading">How it works</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="num">STEP 1</span>
+          <h3>Pick a distinction</h3>
+          <p>Choose one of the foundational distinctions effective boards work from, such as board work versus superintendent work.</p>
+        </div>
+        <div class="step">
+          <span class="num">STEP 2</span>
+          <h3>Read the situations</h3>
+          <p>For each one, decide which side of the line it falls on. These are real governance situations, not trick questions.</p>
+        </div>
+        <div class="step">
+          <span class="num">STEP 3</span>
+          <h3>See the gap</h3>
+          <p>We show you, item by item, where your read matched the standard and where a Certified <span class="brand">Great On Their Behalf</span> Practitioner would have read it differently.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIAGNOSTIC -->
+  <section id="diagnostic">
+    <div class="inner">
+      <h2 class="section-heading">Take the diagnostic</h2>
+      <div class="diag-card">
+
+        <!-- STEP: pick -->
+        <div id="stage-pick">
+          <p class="diag-prompt">Choose a distinction to practice. You can try as many as you like.</p>
+          <div class="practice-grid" id="practice-grid"></div>
+        </div>
+
+        <!-- STEP: answer -->
+        <div id="stage-answer" class="hidden">
+          <p class="diag-prompt" id="answer-prompt"></p>
+          <div id="items"></div>
+          <div class="center mt">
+            <button class="btn btn-sky" id="submit-btn" disabled>See how your read compares</button>
+          </div>
+        </div>
+
+        <!-- STEP: results -->
+        <div id="stage-results" class="hidden">
+          <div class="result-score">
+            <div class="big" id="result-big"></div>
+            <div class="cap" id="result-cap"></div>
+          </div>
+          <div id="result-items"></div>
+          <div class="center mt">
+            <button class="btn btn-ice" id="again-btn">Try another distinction</button>
+            <a class="btn btn-sky" href="#connect" style="margin-left:0.6rem;">Get support for your board</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONVERSION -->
+  <section class="convert" id="connect">
+    <div class="inner center">
+      <div class="eyebrow" style="color:#9dc0e6;">Close the gap</div>
+      <h2 class="section-heading" style="margin-top:0.6rem;">Support for your governing team</h2>
+      <p>Every board has gaps like these. A Certified <span class="brand">Great On Their Behalf</span> Practitioner supports your whole governing team, the board and the superintendent, in building the five practices that keep the focus on student outcomes. Tell us about your school system and we will connect you with a practitioner.</p>
+
+      <div class="lead-form" id="lead-form-wrap">
+        <form id="lead-form">
+          <label for="l-name">Your name</label>
+          <input type="text" id="l-name" name="name" autocomplete="name" />
+          <label for="l-email">Email</label>
+          <input type="email" id="l-email" name="email" autocomplete="email" />
+          <label for="l-school">Your school system</label>
+          <input type="text" id="l-school" name="schoolsystem" autocomplete="organization" placeholder="e.g. Springfield City Schools" />
+          <p class="form-err" id="lead-err">Please add your name and a valid email address.</p>
+          <button type="submit" class="btn btn-sky" id="lead-btn" style="width:100%;">Connect me with a practitioner</button>
+        </form>
+      </div>
+      <div class="lead-success" id="lead-success">
+        <h3>Thank you</h3>
+        <p>A member of the <span class="brand">Great On Their Behalf</span> Practitioner Network will be in touch soon.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THESIS -->
+  <section>
+    <p class="thesis">Because student outcomes don't change until adult behaviors change.</p>
+  </section>
+
+  <footer>
+    <div class="footer-brand">The GOTB Index | Effective School Boards, LLC</div>
+    <div class="footer-links">
+      <a href="https://effectiveschoolboards.com" target="_blank" rel="noopener">effectiveschoolboards.com</a>
+      <a href="https://greatontheirbehalf.com" target="_blank" rel="noopener">greatontheirbehalf.com</a>
+    </div>
+    <div class="footer-copy">&copy; 2026 Effective School Boards, LLC</div>
+  </footer>
+
+  <script>
+  (function () {
+    'use strict';
+
+    var API = 'https://api.gotb.effectiveschoolboards.com/api/academy';
+
+    var current = null;      // the active practice {slug, title, prompt, categories}
+    var scenario = null;     // the generated scenario
+    var answers = {};        // served_item_id -> category key
+    var lastResult = null;   // for the lead summary
+
+    var el = function (id) { return document.getElementById(id); };
+
+    function show(stage) {
+      ['stage-pick', 'stage-answer', 'stage-results'].forEach(function (s) {
+        el(s).classList.toggle('hidden', s !== stage);
+      });
+    }
+
+    // ---- load practices ----
+    fetch(API + '/tools')
+      .then(function (r) { return r.json(); })
+      .then(function (tools) {
+        var grid = el('practice-grid');
+        grid.innerHTML = '';
+        tools.forEach(function (t) {
+          var b = document.createElement('button');
+          b.className = 'practice-pick';
+          var labels = t.categories.map(function (c) { return c.label; }).join(' vs ');
+          b.innerHTML = '<span class="pp-title"></span><span class="pp-sub"></span>';
+          b.querySelector('.pp-title').textContent = t.title;
+          b.querySelector('.pp-sub').textContent = labels;
+          b.addEventListener('click', function () { startPractice(t); });
+          grid.appendChild(b);
+        });
+      })
+      .catch(function () {
+        el('practice-grid').innerHTML = '<p>The diagnostic is briefly unavailable. Please try again shortly.</p>';
+      });
+
+    function startPractice(tool) {
+      current = tool;
+      answers = {};
+      fetch(API + '/scenarios/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tool_slug: tool.slug }),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          scenario = data;
+          renderItems(data);
+          show('stage-answer');
+          window.scrollTo({ top: el('diagnostic').offsetTop - 40, behavior: 'smooth' });
+        });
+    }
+
+    function renderItems(data) {
+      el('answer-prompt').textContent = data.prompt;
+      var wrap = el('items');
+      wrap.innerHTML = '';
+      Object.keys(data.items).forEach(function (itemId) {
+        var item = data.items[itemId];
+        var div = document.createElement('div');
+        div.className = 'item';
+        var text = document.createElement('div');
+        text.className = 'item-text';
+        text.textContent = item.text;
+        div.appendChild(text);
+        var choices = document.createElement('div');
+        choices.className = 'choices';
+        current.categories.forEach(function (cat) {
+          var c = document.createElement('button');
+          c.className = 'choice';
+          c.type = 'button';
+          c.textContent = cat.label;
+          c.addEventListener('click', function () {
+            answers[itemId] = cat.key;
+            Array.prototype.forEach.call(choices.children, function (ch) { ch.classList.remove('selected'); });
+            c.classList.add('selected');
+            el('submit-btn').disabled = Object.keys(answers).length < Object.keys(data.items).length;
+          });
+          choices.appendChild(c);
+        });
+        div.appendChild(choices);
+        wrap.appendChild(div);
+      });
+      el('submit-btn').disabled = true;
+    }
+
+    el('submit-btn').addEventListener('click', function () {
+      fetch(API + '/attempts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scenario_id: scenario.scenario_id, answers: answers }),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (out) { renderResults(out); });
+    });
+
+    function renderResults(out) {
+      lastResult = out;
+      el('result-big').textContent = out.correct + ' of ' + out.total;
+      el('result-cap').textContent = 'matched the standard';
+      var wrap = el('result-items');
+      wrap.innerHTML = '';
+      out.items.forEach(function (it) {
+        var div = document.createElement('div');
+        div.className = 'ritem';
+        var t = document.createElement('div');
+        t.className = 'rtext';
+        t.textContent = it.text;
+        div.appendChild(t);
+        var row = document.createElement('div');
+        row.className = 'rrow';
+        var badge = document.createElement('span');
+        badge.className = 'rmatch ' + (it.correct ? 'yes' : 'no');
+        badge.textContent = it.correct ? 'Matched' : 'Different';
+        row.appendChild(badge);
+        var you = document.createElement('span');
+        you.innerHTML = '<span class="rlbl">Your read: </span>';
+        you.appendChild(document.createTextNode(it.your_answer));
+        you.firstChild.className = 'rlbl';
+        row.appendChild(you);
+        if (!it.correct) {
+          var std = document.createElement('span');
+          std.innerHTML = '<span class="rlbl">The standard read this as </span><span class="rval"></span>';
+          std.querySelector('.rval').textContent = it.correct_answer;
+          row.appendChild(std);
+        }
+        div.appendChild(row);
+        wrap.appendChild(div);
+      });
+      show('stage-results');
+      window.scrollTo({ top: el('diagnostic').offsetTop - 40, behavior: 'smooth' });
+    }
+
+    el('again-btn').addEventListener('click', function () {
+      show('stage-pick');
+      window.scrollTo({ top: el('diagnostic').offsetTop - 40, behavior: 'smooth' });
+    });
+
+    // ---- lead capture ----
+    el('lead-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = el('l-name').value.trim();
+      var email = el('l-email').value.trim();
+      var school = el('l-school').value.trim();
+      if (!name || !email || !email.includes('@') || !email.includes('.')) {
+        el('lead-err').style.display = 'block';
+        return;
+      }
+      el('lead-err').style.display = 'none';
+      var btn = el('lead-btn');
+      btn.textContent = 'Sending';
+      btn.disabled = true;
+
+      var summary = null;
+      if (lastResult && current) {
+        summary = 'Academy diagnostic: matched the standard on ' + lastResult.correct + ' of '
+          + lastResult.total + ' (' + lastResult.practice_title + ')';
+      }
+      fetch(API + '/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, email: email, schoolsystem: school || null, result_summary: summary }),
+      }).catch(function () { /* best-effort */ });
+
+      el('lead-form-wrap').style.display = 'none';
+      el('lead-success').style.display = 'block';
+    });
+  })();
+  </script>
+
+</body>
+</html>
