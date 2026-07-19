@@ -270,7 +270,7 @@
   <section class="assessment-section" id="assessment">
     <div class="assessment-section-header">
       <span class="section-eyebrow">Free Self-Assessment</span>
-      <h2>GOTB Index: Self Assessment</h2>
+      <h2>GOTB Index — Self Assessment</h2>
       <p>18 questions &middot; about 5 minutes &middot; your results are personal and private</p>
     </div>
 
@@ -316,7 +316,7 @@
       <!-- STEP: Results -->
       <div class="gotb-step" id="step-results">
         <div class="results-header">
-          <h2>GOTB Index: Self Assessment Results</h2>
+          <h2>GOTB Index — Self Assessment Results</h2>
           <p id="results-district"></p>
           <div class="score-circle" id="score-circle">
             <span class="score-num" id="score-num">—</span>
@@ -349,14 +349,14 @@
           </div>
           <div class="limit-block">
             <h4>A note on these results</h4>
-            <p>This is a self-assessment — your results reflect your own perception of your board's governance, not a validated external measurement. Use it as a directional read and a starting point for conversation. For a psychometrically validated, evidence-based assessment administered by a certified practitioner, <a href="/practitioner.html" style="color:#1A3A5C;">find a certified practitioner</a>.</p>
+            <p>This is a self-assessment — your results reflect your own perception of your board's governance, not a validated external measurement. Use it as a directional read and a starting point for conversation. For an evidence-based assessment administered by an ESB Certified Practitioner, <a href="/practitioner.html" style="color:#1A3A5C;">find a certified practitioner</a>.</p>
           </div>
           <div class="results-cta">
             <h3>Ready to go deeper?</h3>
-            <p>The Certified GOTB Assessment is evidence-based, nationally benchmarked, and administered by a certified practitioner. It gives your full board a validated measurement — not just one member's self-report.</p>
+            <p>The GOTB Index — Certified Assessment is evidence-based, nationally benchmarked, and administered by an ESB Certified Practitioner. It gives your full board an evidence-based measurement — not just one member's self-report.</p>
             <a href="/practitioner.html" id="consultation-cta" class="btn-cta">Find a Certified Practitioner &rarr;</a>
           </div>
-          <p class="disclaimer">Results are self-reported and indicative only. The GOTB Index: Self Assessment is not a clinical or psychometric instrument. &copy; 2026 Effective School Boards, LLC</p>
+          <p class="disclaimer">Results are self-reported and indicative only. The GOTB Index — Self Assessment is not a clinical or psychometric instrument. &copy; 2026 Effective School Boards, LLC</p>
         </div>
       </div>
 
@@ -369,7 +369,7 @@
       <h2 class="section-heading">Two Ways to Use the GOTB Index</h2>
       <div class="compare-grid">
         <div class="compare-card card-light">
-          <h3>Free Self-Assessment</h3>
+          <h3>GOTB Index — Self Assessment</h3>
           <ul>
             <li>5-practice survey completed by individual board members</li>
             <li>Immediate results + practice-level scores</li>
@@ -379,9 +379,9 @@
           <a class="btn btn-navy" href="#assessment">Take It Free &uarr;</a>
         </div>
         <div class="compare-card card-dark">
-          <h3>Certified Assessment</h3>
+          <h3>GOTB Index — Certified Assessment</h3>
           <ul>
-            <li>Full board participation with validated aggregate scoring</li>
+            <li>Full board participation with evidence-based aggregate scoring</li>
             <li>Benchmark comparison against national GOTB database</li>
             <li>Facilitated debrief with a Certified GOTB Practitioner</li>
             <li>Written governance improvement recommendations</li>
@@ -426,10 +426,10 @@
     var FUNNEL_API = 'https://api.gotb.effectiveschoolboards.com/api/directory/leads/inbound/gotb-free';
     var QUIZ_VERSION = 'free-v2';
 
-    // Six sections mirroring the validated instrument's six rows, presented
+    // Six sections mirroring the Certified Assessment's six rows, presented
     // under the five-practice brand (Clarify Priorities split into two
     // labeled sub-sections). Each question is a first-person rendering of
-    // exactly one named validated indicator (crosswalk kept server-side).
+    // exactly one named Certified Assessment indicator (crosswalk kept server-side).
     var AREAS = [
       { id: 'focus',       practice: 1, label: 'Focus Mindset',                              desc: "Keeping the board's attention on student outcomes" },
       { id: 'vg',          practice: 2, label: 'Clarify Priorities: Vision & Goals',         desc: 'Clear, measurable student-outcome goals' },
@@ -476,7 +476,7 @@
 
     function areaQuestions(a) { return QUESTIONS.filter(function(q){ return q.area === a; }); }
 
-    // --- v2 scoring: same skeleton as the validated instrument ---
+    // --- v2 scoring: same skeleton as the Certified Assessment ---
     // Row points 0-9; a level is confirmed when its anchor scores >= 2
     // ("we do this consistently"); row band climbs the ladder cumulatively;
     // total = points/54 x 100 unweighted; composite = lower median of the six
